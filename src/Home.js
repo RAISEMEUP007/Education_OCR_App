@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-// import {useIsFocused} from '@react-navigation/core';
+import {useIsFocused} from '@react-navigation/core';
 
 import {
   Platform,
@@ -18,7 +18,7 @@ import {
 
 
 const Home = ({navigation}) => {
-  // const isFocused = useIsFocused();     
+  const isFocused = useIsFocused();     
 
   const dimensions = useWindowDimensions();
   const devices = useCameraDevices();
@@ -49,8 +49,6 @@ const Home = ({navigation}) => {
     const imageURI = photo.path;
 
 
-   
-
     navigation.push('ImageEdit', {path: imageURI});
     
   };
@@ -61,7 +59,7 @@ const Home = ({navigation}) => {
       <View style={{flex: 1, position: 'relative'}}>
         {device != null && permission == true ? (
           <>
-            {(
+            {isFocused && (
               <Camera                
                 style={StyleSheet.absoluteFill}
                 device={device}
