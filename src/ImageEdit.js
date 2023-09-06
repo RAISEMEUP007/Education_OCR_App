@@ -11,7 +11,8 @@ import { Storage } from 'aws-amplify';
 import { RNS3 } from 'react-native-aws3';
 import AWS from 'aws-sdk/dist/aws-sdk-react-native';
 import { S3, Textract } from 'aws-sdk';
-
+import { TextractClient, GetDocumentAnalysisCommand } from '@aws-sdk/client-textract';
+import { BlockStruct,Document } from '@scribelabsai/amazon-trp';
 var RNFS = require('react-native-fs');
 const photoName = 'pasta-1.jpg'; 
 
@@ -89,8 +90,15 @@ const getTextractAnalysis = async () => {
       // // detectDocumentText() --> detects text in a document
       console.log("Got response from Textract! Now parsing...");    
       const blocks = data.Blocks;
+      const doc = new Document(blocks as BlockStruct[]);
 
-       lowercaseArray = blocks.map(item => item.Text)
+      doc.pages.forEach((p) => {
+        p.tables.forEach((t) => {
+          console.log(t);
+        });
+      });
+
+      //  lowercaseArray = blocks.map(item => item.Text)
       // var textArray = []
       // for (let i = 0; i < blocks.length; i++) {
       //   if(blocks[i].BlockType === 'LINE') {
